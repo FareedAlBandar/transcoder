@@ -91,11 +91,17 @@ func (t *Transcoder) Start(opts transcoder.Options) (<-chan transcoder.Progress,
 		go func() {
 			defer close(out)
 			err = cmd.Wait()
+			if err != nil {
+				log.Printf("Failed starting transcoding (%s) with args (%s) with error %s\n", t.config.FfmpegBinPath, args, err)
+			}
 		}()
 	} else {
 		err = cmd.Wait()
 	}
 
+	if err != nil {
+		return nil, fmt.Errorf("Failed starting transcoding (%s) with args (%s) with error %s", t.config.FfmpegBinPath, args, err)
+	}
 	return out, nil
 }
 
