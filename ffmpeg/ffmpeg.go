@@ -106,10 +106,10 @@ func (t *Transcoder) Start(opts transcoder.Options) (<-chan transcoder.Progress,
 }
 
 // Probe ...
-func (t *Transcoder) Probe() map[string]interface{} {
+func (t *Transcoder) Probe() (map[string]interface{}, error) {
 	_, err := t.getMetadata()
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 	video := t.metadata.Streams[0]
 	audio := t.metadata.Streams[1]
@@ -118,7 +118,7 @@ func (t *Transcoder) Probe() map[string]interface{} {
 		"width":  video.Width,
 		"c:v":    video.CodecName,
 		"c:a":    audio.CodecName,
-	}
+	}, nil
 }
 
 // Input ...
