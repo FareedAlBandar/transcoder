@@ -111,6 +111,9 @@ func (t *Transcoder) Probe() (map[string]interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
+	if len(t.metadata.Streams) != 2 {
+		return nil, errors.New("This video has no audio")
+	}
 	video := t.metadata.Streams[0]
 	audio := t.metadata.Streams[1]
 	return map[string]interface{}{
