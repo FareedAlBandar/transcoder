@@ -13,6 +13,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/FareedAlBandar/transcoder"
 	"github.com/FareedAlBandar/transcoder/utils"
@@ -98,6 +99,8 @@ func (t *Transcoder) Start(opts transcoder.Options) (<-chan transcoder.Progress,
 	} else {
 		err = cmd.Wait()
 	}
+
+	time.Sleep(time.Second)
 
 	if err != nil {
 		return nil, fmt.Errorf("Failed starting transcoding (%s) with args (%s) with error %s", t.config.FfmpegBinPath, args, err)
